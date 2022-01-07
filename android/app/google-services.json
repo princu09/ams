@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "145249749542",
+    "project_id": "attendance-management-sy-54aa6",
+    "storage_bucket": "attendance-management-sy-54aa6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145249749542:android:3b011609eaa1384b46f4e7",
+        "android_client_info": {
+          "package_name": "com.nfg.ams.ams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145249749542-108i0mko7bu6vtvoqmu0adk43d0luts7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzNMUe6zxniRcfLUGGJci3GTi3s7zQpaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145249749542-108i0mko7bu6vtvoqmu0adk43d0luts7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145249749542-b2nq30oq7abdl772mmn6l6vgrdolpdme.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nfg.ams"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
