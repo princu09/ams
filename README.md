@@ -1,3 +1,0 @@
-# ams
-
-Attendance Management System
