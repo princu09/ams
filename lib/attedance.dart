@@ -62,6 +62,8 @@ class _AttendanceState extends State<Attendance> {
       "name": userName.toString(),
       "email": userEmail.toString(),
     });
+    Navigator.of(context).pushReplacementNamed('/home');
+
     setState(() {
       msg = response.body;
     });

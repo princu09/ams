@@ -111,44 +111,44 @@ class _AccountState extends State<Account> {
                               style: TextStyle(fontSize: 18),),
                           ),
                           SizedBox(height: 30,),
-                          Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                gradient: const LinearGradient(
-                                    colors: [
-                                      Color.fromRGBO(167, 29, 49, .9),
-                                      Color.fromRGBO(217, 131, 36, 1),
-                                    ]
-                                )
-                            ),
-                            child: Center(
-                              child: SizedBox(
-                                height: 50.0,
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  child: const Text(
-                                      "Logout",
-                                      style: TextStyle(fontSize: 20)
-                                  ),
-                                  style: ButtonStyle(
-                                    shadowColor: MaterialStateProperty.all(
-                                        Colors.transparent),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.transparent),
-                                  ),
-                                  onPressed: () async {
-                                    await FirebaseAuth.instance.signOut();
-                                    var currentUser = FirebaseAuth.instance.currentUser;
-                                    if (currentUser == null) {
-                                      Navigator.of(context).pushReplacementNamed('/login');
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
+                        //   Container(
+                        //     height: 50,
+                        //     width: 150,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(50),
+                        //         gradient: const LinearGradient(
+                        //             colors: [
+                        //               Color.fromRGBO(167, 29, 49, .9),
+                        //               Color.fromRGBO(217, 131, 36, 1),
+                        //             ]
+                        //         )
+                        //     ),
+                        //     child: Center(
+                        //       child: SizedBox(
+                        //         height: 50.0,
+                        //         width: double.infinity,
+                        //         child: ElevatedButton(
+                        //           child: const Text(
+                        //               "Logout",
+                        //               style: TextStyle(fontSize: 20)
+                        //           ),
+                        //           style: ButtonStyle(
+                        //             shadowColor: MaterialStateProperty.all(
+                        //                 Colors.transparent),
+                        //             backgroundColor: MaterialStateProperty.all(
+                        //                 Colors.transparent),
+                        //           ),
+                        //           onPressed: () async {
+                        //             await FirebaseAuth.instance.signOut();
+                        //             var currentUser = FirebaseAuth.instance.currentUser;
+                        //             if (currentUser == null) {
+                        //               Navigator.of(context).pushReplacementNamed('/login');
+                        //             }
+                        //           },
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
                         ],
                       ),
                     );

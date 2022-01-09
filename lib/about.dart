@@ -45,7 +45,7 @@ class About extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              'images/logo.png',
+              'images/logo_700.png',
               width: 200.0,
               height: 200.0,
               fit: BoxFit.cover,

@@ -1,15 +1,16 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:ams/account.dart';
 import 'package:ams/announcement.dart';
 import 'package:ams/attedance.dart';
 import 'package:ams/login.dart';
+import 'package:ams/securityChecking.dart';
 import 'package:ams/takeLeave.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'about.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -30,6 +31,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
+  var loginDetails = "";
+  Future getEmail() async{
+
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  setState(() {
+    loginDetails = preferences.getString('email')!;
+  });
+
+  }
+
   var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
@@ -39,14 +50,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Attendance Management System',
       theme: ThemeData(
         primarySwatch: Colors.red,
-      ), home : Login(),
+      ), 
+      home: loginDetails == null ? Login() : Security(),
       routes: <String, WidgetBuilder>{
-        // Set routes for using the Navigator.
         '/home': (BuildContext context) => new MyHomePage(),
         '/login': (BuildContext context) => new Login(),
         '/account': (BuildContext context) => new Account(),
-      },
-    );
+      });
       // const MyHomePage(),
   }
 }
@@ -67,13 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
   var userName;
 
 
-  @override
-  void initState() {
-    userNameGet();
-    userAttedance();
-    super.initState();
-  }
+  String email = "";
 
+  Future getEmail()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      email = preferences.getString('email')!;
+    });
+  }
 
   Future userAttedance() async {
     var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/getThisMonthAttendance.php");
@@ -103,6 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return userName;
   }
 
+ @override
+  void initState() {
+    userNameGet();
+    userAttedance();
+    getEmail();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
