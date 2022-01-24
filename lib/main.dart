@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ), 
-      home: loginDetails == null ? Login() : Security(),
+      home: loginDetails != null ? MyHomePage() : Login(),
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => new MyHomePage(),
         '/login': (BuildContext context) => new Login(),
