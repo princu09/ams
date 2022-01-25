@@ -36,7 +36,7 @@ class About extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(onPressed: (){
                 Navigator.of(context).pushReplacementNamed('/account');
-              }, icon: Icon(FontAwesomeIcons.solidUserCircle)),
+              }, icon: const Icon(FontAwesomeIcons.solidUserCircle)),
             ),
           ]
       ),

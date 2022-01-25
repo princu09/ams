@@ -39,7 +39,7 @@ class _AnnouncementState extends State<Announcement> {
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(onPressed: (){
                 Navigator.of(context).pushReplacementNamed('/account');
-              }, icon: Icon(FontAwesomeIcons.solidUserCircle)),
+              }, icon: const Icon(FontAwesomeIcons.solidUserCircle)),
             ),
           ]
       ),
@@ -50,18 +50,18 @@ class _AnnouncementState extends State<Announcement> {
           future: getUserData(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
             if(snapshot.data == null){
-              return Container(child: Center(child: Text("Loading..."),),);
+              return Container(child: const Center(child: Text("Loading..."),),);
             }
             else{
             return ListView.separated(
               itemCount: snapshot.data.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
+              separatorBuilder: (BuildContext context, int index) => const Divider(
                 color: Colors.black,
                 height: 50.0,
               ),
               itemBuilder: (BuildContext context , int id){
                 return ListTile(
-                  title: Text(snapshot.data[id].title + "\n" , style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w600),),
+                  title: Text(snapshot.data[id].title + "\n" , style: const TextStyle(fontSize: 18 , fontWeight: FontWeight.w600),),
                   subtitle: Text(snapshot.data[id].description +  "\n\nDate : " +  snapshot.data[id].date),
                   // : Text(snapshot.data[id].date),
                 );

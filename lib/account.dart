@@ -43,19 +43,19 @@ class _AccountState extends State<Account> {
           title: const Text("My Account"),
           leading: IconButton(onPressed: (){
           Navigator.of(context).pushReplacementNamed('/home');
-        }, icon: Icon(FontAwesomeIcons.chevronLeft , size: 18,)),
+        }, icon: const Icon(FontAwesomeIcons.chevronLeft , size: 18,)),
       ),
       body: Container(
         child: FutureBuilder(
           future: handleLogin(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
             if(snapshot.data == null){
-              return Container(child: Center(child: Text("Loading..."),),);
+              return Container(child: const Center(child: Text("Loading..."),),);
             }
             else{
               return ListView.separated(
                 itemCount: snapshot.data.length,
-                separatorBuilder: (BuildContext context, int index) => Divider(
+                separatorBuilder: (BuildContext context, int index) => const Divider(
                   color: Colors.black,
                   height: 50.0,
                 ),
@@ -75,13 +75,13 @@ class _AccountState extends State<Account> {
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text(snapshot.data[id].name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text("Roll No : " + snapshot.data[id].roll,
-                              style: TextStyle(fontSize: 18),),
+                              style: const TextStyle(fontSize: 18),),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -89,28 +89,28 @@ class _AccountState extends State<Account> {
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Text(
-                                  "Class : " + snapshot.data[id].division, style: TextStyle(fontSize: 18),),
+                                  "Class : " + snapshot.data[id].division, style: const TextStyle(fontSize: 18),),
                               ),
-                              Text("|", style: TextStyle(
+                              const Text("|", style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),),
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Text("Degree : " + snapshot.data[id].degree,
-                                  style: TextStyle(fontSize: 18),),
+                                  style: const TextStyle(fontSize: 18),),
                               ),
                             ],
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text("Email : " + snapshot.data[id].email,
-                              style: TextStyle(fontSize: 18),),
+                              style: const TextStyle(fontSize: 18),),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text("Mobile : " + snapshot.data[id].mobile,
-                              style: TextStyle(fontSize: 18),),
+                              style: const TextStyle(fontSize: 18),),
                           ),
-                          SizedBox(height: 30,),
+                          const SizedBox(height: 30,),
                         //   Container(
                         //     height: 50,
                         //     width: 150,

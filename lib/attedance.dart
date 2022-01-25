@@ -87,15 +87,15 @@ class _AttendanceState extends State<Attendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fill Attandance"),
+        title: const Text("Fill Attandance"),
       ),
       body: Center(
         child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Confirm Your Details :" , style: TextStyle(fontSize: 18 , color: Colors.teal),),
-                SizedBox(
+                const Text("Confirm Your Details :" , style: TextStyle(fontSize: 18 , color: Colors.teal),),
+                const SizedBox(
                   height: 30,
                 ),
                 if(barcode != "")
@@ -103,18 +103,18 @@ class _AttendanceState extends State<Attendance> {
                     child: Column(
                       children: [
                         Text("Name : " + userName),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text("Date : " + barcode),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text("Email : " + userEmail),
                       ],
                     ),
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 if(barcode != "")
@@ -127,24 +127,24 @@ class _AttendanceState extends State<Attendance> {
                     borderRadius: BorderRadius.circular(50)
                   ),
                   child: FlatButton.icon(
-                    icon: Icon(FontAwesomeIcons.paperPlane , color: Colors.white, size: 17,),
+                    icon: const Icon(FontAwesomeIcons.paperPlane , color: Colors.white, size: 17,),
                     onPressed: (){
                       sendAttendance();
                     },
-                    label: Text("Submit" ,style: TextStyle(color: Colors.white , fontSize: 18 , fontWeight: FontWeight.w100),),
+                    label: const Text("Submit" ,style: TextStyle(color: Colors.white , fontSize: 18 , fontWeight: FontWeight.w100),),
                   )
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 if(msg != "")
-                  Text("Warning : " + msg , style: TextStyle(color: Colors.red , fontSize: 12),)
+                  Text("Warning : " + msg , style: const TextStyle(color: Colors.red , fontSize: 12),)
               ],
             ),
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: scanBarcode,
-      child: Icon(FontAwesomeIcons.qrcode),),
+      child: const Icon(FontAwesomeIcons.qrcode),),
     );
   }
 }

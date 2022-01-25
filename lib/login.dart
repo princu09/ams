@@ -152,7 +152,7 @@ class _LoginState extends State<Login> {
                                             TextInputType.emailAddress,
                                         textInputAction: TextInputAction.next,
                                         decoration: InputDecoration(
-                                            prefixIcon: Icon(
+                                            prefixIcon: const Icon(
                                               FontAwesomeIcons.envelope,
                                               size: 17,
                                             ),
@@ -169,7 +169,7 @@ class _LoginState extends State<Login> {
                                         obscureText: true,
                                         textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
-                                            prefixIcon: Icon(
+                                            prefixIcon: const Icon(
                                               FontAwesomeIcons.lock,
                                               size: 17,
                                             ),

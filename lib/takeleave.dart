@@ -68,8 +68,8 @@ class _TakeLeaveState extends State<TakeLeave> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                  Text('Selected Range:\n' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 12),),
-                  Text('$range' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 16),),
+                  const Text('Selected Range:\n' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 12),),
+                  Text(range , style: const TextStyle(fontWeight: FontWeight.bold , fontSize: 16),),
                   Padding(
                     padding: const EdgeInsets.only(top: 20 , left: 10 , right: 10),
                     child: TextFormField(
@@ -78,8 +78,8 @@ class _TakeLeaveState extends State<TakeLeave> {
                       maxLines: 3,
                       minLines: 1,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(FontAwesomeIcons.pen , size: 17,),
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(FontAwesomeIcons.pen , size: 17,),
                           hintText: "Enter Reason",
                           hintStyle: TextStyle(color: Colors.grey[400])
                       ),

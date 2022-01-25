@@ -51,11 +51,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ), 
-      home: loginDetails != null ? MyHomePage() : Login(),
+      home: loginDetails != null ? Security() : Login(),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new MyHomePage(),
-        '/login': (BuildContext context) => new Login(),
-        '/account': (BuildContext context) => new Account(),
+        '/home': (BuildContext context) => const MyHomePage(),
+        '/login': (BuildContext context) => const Login(),
+        '/account': (BuildContext context) => const Account(),
       });
       // const MyHomePage(),
   }
@@ -126,13 +126,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
           actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(onPressed: (){
               Navigator.of(context).pushReplacementNamed('/account');
-            }, icon: Icon(FontAwesomeIcons.solidUserCircle)),
+            }, icon: const Icon(FontAwesomeIcons.solidUserCircle)),
           ),
           ]
       ),
@@ -147,16 +147,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(userName , style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                        Text("You are attend lactures." , style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                        SizedBox(
+                        Text(userName , style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                        const Text("You are attend lactures." , style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                        const SizedBox(
                           height: 10,
                         ),
-                        Text(totalPresentDay + " Days" , style: TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                        Text(totalPresentDay + " Days" , style: const TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                       ],
                     ),
                   ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                 Container(
@@ -167,11 +167,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     calendarStyle: CalendarStyle(
                         todayDecoration: BoxDecoration(color: Colors.red,
                             borderRadius: BorderRadius.circular(50)),
-                        todayTextStyle : TextStyle(
+                        todayTextStyle : const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                             color: Colors.white)),
-                    headerStyle: HeaderStyle(
+                    headerStyle: const HeaderStyle(
                       titleCentered: true,
                       formatButtonVisible: false,
                     ),
@@ -179,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Container(
@@ -200,25 +200,25 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50.0,
                         width: double.infinity,
                         child: FlatButton.icon(
-                            label: Text(
+                            label: const Text(
                                 "Fill Attandance",
                                 style: TextStyle(fontSize: 15 , color: Colors.white , fontWeight: FontWeight.bold)
                             ),
-                            icon: Icon(FontAwesomeIcons.qrcode , color: Colors.white,size: 15,),
+                            icon: const Icon(FontAwesomeIcons.qrcode , color: Colors.white,size: 15,),
                             onPressed: () {
                               Navigator.push(
                                 context, MaterialPageRoute(builder: (context) => const Attendance()),);
                             }
                         ),),)),
 
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
                     child: Column(
-                      children: [
+                      children: const [
                         Text("Accepted Leave" , style: TextStyle(fontSize: 19 , decoration: TextDecoration.underline, fontWeight: FontWeight.bold , color: Colors.red),),
                         SizedBox(
                           height: 20,
