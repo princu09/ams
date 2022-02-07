@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nfg.ams.ams">
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <application
         android:label="ams"
         android:icon="@mipmap/ic_launcher">
