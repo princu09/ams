@@ -45,117 +45,114 @@ class _AccountState extends State<Account> {
           Navigator.of(context).pushReplacementNamed('/home');
         }, icon: const Icon(FontAwesomeIcons.chevronLeft , size: 18,)),
       ),
-      body: Container(
-        child: FutureBuilder(
-          future: handleLogin(),
-          builder: (BuildContext context, AsyncSnapshot snapshot){
-            if(snapshot.data == null){
-              return Container(child: const Center(child: Text("Loading..."),),);
-            }
-            else{
-              return ListView.separated(
-                itemCount: snapshot.data.length,
-                separatorBuilder: (BuildContext context, int index) => const Divider(
-                  color: Colors.black,
-                  height: 50.0,
-                ),
-                  itemBuilder: (BuildContext context , int id) {
-                    return Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: SizedBox(
-                              height: 150,
-                              child: Image.asset('images/student.png'),
+      body: FutureBuilder(
+        future: handleLogin(),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          if(snapshot.data == null){
+            return const Center(child: Text("Loading..."),);
+          }
+          else{
+            return ListView.separated(
+              itemCount: snapshot.data.length,
+              separatorBuilder: (BuildContext context, int index) => const Divider(
+                color: Colors.black,
+                height: 50.0,
+              ),
+                itemBuilder: (BuildContext context , int id) {
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: SizedBox(
+                            height: 150,
+                            child: Image.asset('images/student.png'),
+                          ),
+                        ),
+                        // Text(userEmail!),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(snapshot.data[id].name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Roll No : " + snapshot.data[id].roll,
+                            style: const TextStyle(fontSize: 18),),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                "Class : " + snapshot.data[id].division, style: const TextStyle(fontSize: 18),),
                             ),
-                          ),
-                          // Text(userEmail!),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(snapshot.data[id].name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("Roll No : " + snapshot.data[id].roll,
-                              style: const TextStyle(fontSize: 18),),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                  "Class : " + snapshot.data[id].division, style: const TextStyle(fontSize: 18),),
-                              ),
-                              const Text("|", style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text("Degree : " + snapshot.data[id].degree,
-                                  style: const TextStyle(fontSize: 18),),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("Email : " + snapshot.data[id].email,
-                              style: const TextStyle(fontSize: 18),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("Mobile : " + snapshot.data[id].mobile,
-                              style: const TextStyle(fontSize: 18),),
-                          ),
-                          const SizedBox(height: 30,),
-                        //   Container(
-                        //     height: 50,
-                        //     width: 150,
-                        //     decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(50),
-                        //         gradient: const LinearGradient(
-                        //             colors: [
-                        //               Color.fromRGBO(167, 29, 49, .9),
-                        //               Color.fromRGBO(217, 131, 36, 1),
-                        //             ]
-                        //         )
-                        //     ),
-                        //     child: Center(
-                        //       child: SizedBox(
-                        //         height: 50.0,
-                        //         width: double.infinity,
-                        //         child: ElevatedButton(
-                        //           child: const Text(
-                        //               "Logout",
-                        //               style: TextStyle(fontSize: 20)
-                        //           ),
-                        //           style: ButtonStyle(
-                        //             shadowColor: MaterialStateProperty.all(
-                        //                 Colors.transparent),
-                        //             backgroundColor: MaterialStateProperty.all(
-                        //                 Colors.transparent),
-                        //           ),
-                        //           onPressed: () async {
-                        //             await FirebaseAuth.instance.signOut();
-                        //             var currentUser = FirebaseAuth.instance.currentUser;
-                        //             if (currentUser == null) {
-                        //               Navigator.of(context).pushReplacementNamed('/login');
-                        //             }
-                        //           },
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        ],
-                      ),
-                    );
-                  });
-            }},
-        ),
-
+                            const Text("|", style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text("Degree : " + snapshot.data[id].degree,
+                                style: const TextStyle(fontSize: 18),),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Email : " + snapshot.data[id].email,
+                            style: const TextStyle(fontSize: 18),),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text("Mobile : " + snapshot.data[id].mobile,
+                            style: const TextStyle(fontSize: 18),),
+                        ),
+                        const SizedBox(height: 30,),
+                      //   Container(
+                      //     height: 50,
+                      //     width: 150,
+                      //     decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(50),
+                      //         gradient: const LinearGradient(
+                      //             colors: [
+                      //               Color.fromRGBO(167, 29, 49, .9),
+                      //               Color.fromRGBO(217, 131, 36, 1),
+                      //             ]
+                      //         )
+                      //     ),
+                      //     child: Center(
+                      //       child: SizedBox(
+                      //         height: 50.0,
+                      //         width: double.infinity,
+                      //         child: ElevatedButton(
+                      //           child: const Text(
+                      //               "Logout",
+                      //               style: TextStyle(fontSize: 20)
+                      //           ),
+                      //           style: ButtonStyle(
+                      //             shadowColor: MaterialStateProperty.all(
+                      //                 Colors.transparent),
+                      //             backgroundColor: MaterialStateProperty.all(
+                      //                 Colors.transparent),
+                      //           ),
+                      //           onPressed: () async {
+                      //             await FirebaseAuth.instance.signOut();
+                      //             var currentUser = FirebaseAuth.instance.currentUser;
+                      //             if (currentUser == null) {
+                      //               Navigator.of(context).pushReplacementNamed('/login');
+                      //             }
+                      //           },
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      ],
+                    ),
+                  );
+                });
+          }},
       ),
     );
   }

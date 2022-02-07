@@ -57,10 +57,12 @@ class About extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // ignore: deprecated_member_use
                 RaisedButton(
                   onPressed: _makingPhoneCall,
                   child: const Text("Contact" , style: TextStyle(color: Colors.white),) , color: Colors.black,),
                 const SizedBox(width: 30,),
+                // ignore: deprecated_member_use
                 RaisedButton(onPressed: _openSite, child: const Text("Website" , style:  TextStyle(color: Colors.white),) , color: Colors.black,)
               ],
             )

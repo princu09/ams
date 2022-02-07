@@ -7,7 +7,6 @@ import 'package:ams/securityChecking.dart';
 import 'package:ams/takeLeave.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +18,7 @@ import 'package:http/http.dart' as http;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -51,9 +50,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ), 
-      home: loginDetails != null ? Security() : Login(),
+      home: loginDetails != "" ? Security() : Login(),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => const MyHomePage(),
+        '/home': (BuildContext context) => MyHomePage(),
         '/login': (BuildContext context) => const Login(),
         '/account': (BuildContext context) => const Account(),
       });
@@ -62,20 +61,19 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
+  
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  // getThisMonthAttendance.php
-
+ // getThisMonthAttendance.php
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
-  var totalPresentDay;
-  var userName;
 
+  var totalPresentDay;
+
+  var userName;
 
   String email = "";
 
@@ -287,7 +285,7 @@ class AppDrawer extends StatelessWidget {
               title: const Text('Home' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
               onTap: () {
                 Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const MyHomePage()),);
+                  context, MaterialPageRoute(builder: (context) => MyHomePage()),);
               }
           ),
           ListTile(

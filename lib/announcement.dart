@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async';
 
 
 class Announcement extends StatefulWidget {
@@ -45,12 +44,11 @@ class _AnnouncementState extends State<Announcement> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Container(
         child: FutureBuilder(
           future: getUserData(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
             if(snapshot.data == null){
-              return Container(child: const Center(child: Text("Loading..."),),);
+              return const Center(child: Text("Loading..."),);
             }
             else{
             return ListView.separated(
@@ -68,7 +66,6 @@ class _AnnouncementState extends State<Announcement> {
               },
             );
           }},
-        ),
         ),
       ),
       drawer: const AppDrawer(),

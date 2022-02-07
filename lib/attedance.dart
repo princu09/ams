@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +16,7 @@ class Attendance extends StatefulWidget {
 class _AttendanceState extends State<Attendance> {
 
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
+  // ignore: prefer_typing_uninitialized_variables
   var userName;
   var msg = '';
 
@@ -76,7 +76,6 @@ class _AttendanceState extends State<Attendance> {
 
     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Cancel", true, ScanMode.QR);
-    print(barcodeScanRes);
 
     setState(() {
       barcode = barcodeScanRes;
@@ -90,57 +89,54 @@ class _AttendanceState extends State<Attendance> {
         title: const Text("Fill Attandance"),
       ),
       body: Center(
-        child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Confirm Your Details :" , style: TextStyle(fontSize: 18 , color: Colors.teal),),
-                const SizedBox(
-                  height: 30,
-                ),
-                if(barcode != "")
-                  Container(
-                    child: Column(
-                      children: [
-                        Text("Name : " + userName),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("Date : " + barcode),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("Email : " + userEmail),
-                      ],
-                    ),
-                  ),
-                const SizedBox(
-                  height: 30,
-                ),
-                if(barcode != "")
-
-                  Container(
-                  width: 150,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: FlatButton.icon(
-                    icon: const Icon(FontAwesomeIcons.paperPlane , color: Colors.white, size: 17,),
-                    onPressed: (){
-                      sendAttendance();
-                    },
-                    label: const Text("Submit" ,style: TextStyle(color: Colors.white , fontSize: 18 , fontWeight: FontWeight.w100),),
-                  )
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                if(msg != "")
-                  Text("Warning : " + msg , style: const TextStyle(color: Colors.red , fontSize: 12),)
-              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Confirm Your Details :" , style: TextStyle(fontSize: 18 , color: Colors.teal),),
+            const SizedBox(
+              height: 30,
             ),
+            if(barcode != "")
+              Column(
+                children: [
+                  Text("Name : " + userName),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Date : " + barcode),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Email : " + userEmail),
+                ],
+              ),
+            const SizedBox(
+              height: 30,
+            ),
+            if(barcode != "")
+
+              Container(
+              width: 150,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(50)
+              ),
+              // ignore: deprecated_member_use
+              child: FlatButton.icon(
+                icon: const Icon(FontAwesomeIcons.paperPlane , color: Colors.white, size: 17,),
+                onPressed: (){
+                  sendAttendance();
+                },
+                label: const Text("Submit" ,style: TextStyle(color: Colors.white , fontSize: 18 , fontWeight: FontWeight.w100),),
+              )
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            if(msg != "")
+              Text("Warning : " + msg , style: const TextStyle(color: Colors.red , fontSize: 12),)
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: scanBarcode,
