@@ -17,17 +17,17 @@ class _LoginState extends State<Login> {
   User? user = FirebaseAuth.instance.currentUser;
 
   Future checkLogin() async {
-    
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('email', emailController.text);
 
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    setState(() {});
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', emailController.text);
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+    
     var currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       Navigator.of(context).pushReplacementNamed('/home');
     }
+
   }
 
   // String msg = '';

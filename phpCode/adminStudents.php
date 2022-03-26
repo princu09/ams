@@ -1,13 +1,6 @@
 <?php
 
-$servername = "localhost";
-$username = "id18223159_root";
-$password = 'A$IGotnc8uqh2xvT';
-$database = "id18223159_ams";
-
-// Create a connection
-
-$conn = mysqli_connect($servername, $username, $password, $database);
+require("_dbconnect.php");
 
 include("_header.php");
 
@@ -27,6 +20,7 @@ $result = mysqli_query($conn , $sql);
                 <th>Email</th>
                 <th>Name</th>
                 <th>Roll No.</th>
+                <th>Sem</th>
                 <th>Division</th>
                 <th>Degree</th>
                 <th>Mobile</th>
@@ -41,6 +35,7 @@ $result = mysqli_query($conn , $sql);
                     <td>". $row['email'] ."</td>
                     <td>". $row['name'] ."</td>
                     <td>". $row['roll'] ."</td>
+                    <td>". $row['sem'] ."</td>
                     <td>". $row['division'] ."</td>
                     <td>". $row['degree'] ."</td>
                     <td>". $row['mobile'] ."</td>

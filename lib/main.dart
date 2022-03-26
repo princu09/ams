@@ -22,22 +22,26 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key }) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  var _email = "";
 
-  var loginDetails = "";
-  Future getEmail() async{
+  Future getEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _email = prefs.getString('email')!;
+    });
+  }
 
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  setState(() {
-    loginDetails = preferences.getString('email')!;
-  });
-
+  @override
+  void initState() {
+    getEmail();
+    super.initState();
   }
 
   var currentUser = FirebaseAuth.instance.currentUser;
@@ -45,30 +49,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Attendance Management System',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ), 
-      home: loginDetails != "" ? Security() : Login(),
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => MyHomePage(),
-        '/login': (BuildContext context) => const Login(),
-        '/account': (BuildContext context) => const Account(),
-      });
-      // const MyHomePage(),
+        debugShowCheckedModeBanner: false,
+        title: 'Attendance Management System',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        home: _email != "" ? Security() : Login(),
+        routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => MyHomePage(),
+          '/login': (BuildContext context) => const Login(),
+          '/account': (BuildContext context) => const Account(),
+        });
+    // const MyHomePage(),
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
- // getThisMonthAttendance.php
+  // getThisMonthAttendance.php
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
 
   var totalPresentDay;
@@ -77,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String email = "";
 
-  Future getEmail()async{
+  Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       email = preferences.getString('email')!;
@@ -85,9 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future userAttedance() async {
-    var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/getThisMonthAttendance.php");
+    var url = Uri.parse(
+        "https://northfoxgroup123.000webhostapp.com/getThisMonthAttendance.php");
 
-    final response =  await http.post(url , body: {
+    final response = await http.post(url, body: {
       "email": userEmail,
     });
 
@@ -99,10 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future userNameGet() async {
-
     var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/login.php");
 
-    final response =  await http.post(url , body: {
+    final response = await http.post(url, body: {
       "email": userEmail,
     });
 
@@ -112,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return userName;
   }
 
- @override
+  @override
   void initState() {
     userNameGet();
     userAttedance();
@@ -120,52 +122,109 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  Future<List> leaveData() async {
+    var url = Uri.parse(
+        "https://northfoxgroup123.000webhostapp.com/attendance_data.php");
+
+    final response = await http.post(url, body: {
+      "email": userEmail,
+    });
+
+    // print(response.body);
+
+    var jsonData = jsonDecode(response.body);
+
+    List<Leave> leaves = [];
+
+    for (var u in jsonData) {
+      Leave leave = Leave(u['date'], u['reason']);
+      leaves.add(leave);
+    }
+    return leaves;
+  }
+
+  Future<List> leaveDeniedData() async {
+    var url = Uri.parse(
+        "https://northfoxgroup123.000webhostapp.com/decline_attendance_data.php");
+
+    final response = await http.post(url, body: {
+      "email": userEmail,
+    });
+
+    // print(response.body);
+
+    var jsonData = jsonDecode(response.body);
+
+    List<Leave> leaves = [];
+
+    for (var u in jsonData) {
+      Leave leave = Leave(u['date'], u['reason']);
+      leaves.add(leave);
+    }
+    return leaves;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-          actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(onPressed: (){
-              Navigator.of(context).pushReplacementNamed('/account');
-            }, icon: const Icon(FontAwesomeIcons.solidUserCircle)),
-          ),
-          ]
-      ),
+      appBar: AppBar(title: const Text("Home"), actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed('/account');
+              },
+              icon: const Icon(FontAwesomeIcons.solidUserCircle)),
+        ),
+      ]),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical:20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Container(
             child: Column(
               children: [
-                if(totalPresentDay != null && userName != null)
+                if (totalPresentDay != null && userName != null)
                   Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(userName , style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                        const Text("You are attend lactures." , style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                        Text(userName,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        const Text("You are attend lactures.",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(totalPresentDay + " Days" , style: const TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                        Text(totalPresentDay + " Days",
+                            style: const TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
                       ],
                     ),
                   ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+                const SizedBox(
+                  height: 30,
+                ),
                 Container(
                   child: TableCalendar(
                     firstDay: DateTime.utc(2010, 10, 16),
                     lastDay: DateTime.utc(2030, 3, 14),
                     focusedDay: DateTime.now(),
                     calendarStyle: CalendarStyle(
-                        todayDecoration: BoxDecoration(color: Colors.red,
+                        todayDecoration: BoxDecoration(
+                            color: Colors.red,
                             borderRadius: BorderRadius.circular(50)),
-                        todayTextStyle : const TextStyle(
+                        todayTextStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                             color: Colors.white)),
@@ -176,7 +235,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     calendarFormat: CalendarFormat.week,
                   ),
                 ),
-
                 const SizedBox(
                   height: 40,
                 ),
@@ -184,71 +242,169 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 50,
                     width: 200,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black , width: 2.0) ,
+                        border: Border.all(color: Colors.black, width: 2.0),
                         borderRadius: BorderRadius.circular(50),
-                        gradient: const LinearGradient(
-                            colors: [
-                              Color.fromRGBO(0, 0, 0, 1),
-                              Color.fromRGBO(0, 0, 0, 1),
-                            ]
-                        )
-                    ),
+                        gradient: const LinearGradient(colors: [
+                          Color.fromRGBO(0, 0, 0, 1),
+                          Color.fromRGBO(0, 0, 0, 1),
+                        ])),
                     child: Center(
                       child: SizedBox(
                         height: 50.0,
                         width: double.infinity,
                         child: FlatButton.icon(
-                            label: const Text(
-                                "Fill Attandance",
-                                style: TextStyle(fontSize: 15 , color: Colors.white , fontWeight: FontWeight.bold)
+                            label: const Text("Fill Attandance",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                            icon: const Icon(
+                              FontAwesomeIcons.qrcode,
+                              color: Colors.white,
+                              size: 15,
                             ),
-                            icon: const Icon(FontAwesomeIcons.qrcode , color: Colors.white,size: 15,),
                             onPressed: () {
                               Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const Attendance()),);
-                            }
-                        ),),)),
-
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Attendance()),
+                              );
+                            }),
+                      ),
+                    )),
                 const SizedBox(
                   height: 40,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
-                    child: Column(
-                      children: const [
-                        Text("Accepted Leave" , style: TextStyle(fontSize: 19 , decoration: TextDecoration.underline, fontWeight: FontWeight.bold , color: Colors.red),),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                          title: Text("Date : 5 Feb 2022" , style: TextStyle(fontWeight: FontWeight.bold),),
-                          subtitle: Text("Reason : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." ,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                          title: Text("Date : 5 Feb 2022" , style: TextStyle(fontWeight: FontWeight.bold),),
-                          subtitle: Text("Reason : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." ,
-                          ),
-                        ),SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                          title: Text("Date : 5 Feb 2022" , style: TextStyle(fontWeight: FontWeight.bold),),
-                          subtitle: Text("Reason : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." ,
-                          ),
-                        ),SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                          title: Text("Date : 5 Feb 2022" , style: TextStyle(fontWeight: FontWeight.bold),),
-                          subtitle: Text("Reason : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." ,
-                          ),
-                        ),
-                      ],
+                    child: FutureBuilder(
+                      future: leaveData(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
+                          return const Center(
+                            child: Text("Loading..."),
+                          );
+                        } else {
+                          return Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: const Text(
+                                    "Accepted Leave",
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        decoration: TextDecoration.underline,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Divider(
+                                    color: Colors.black,
+                                    height: 50.0,
+                                  ),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                            "Date : " +
+                                                snapshot.data[index].date,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                            "Reason : " +
+                                                snapshot.data[index].reason,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ));
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Container(
+                    child: FutureBuilder(
+                      future: leaveDeniedData(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
+                          return const Center(
+                            child: Text("Loading..."),
+                          );
+                        } else {
+                          return Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: const Text(
+                                    "Denied Leave",
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        decoration: TextDecoration.underline,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Divider(
+                                    color: Colors.black,
+                                    height: 50.0,
+                                  ),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                            "Date : " +
+                                                snapshot.data[index].date,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                            "Reason : " +
+                                                snapshot.data[index].reason,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ));
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -263,7 +419,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key? key, ListView ? child}) : super(key: key);
+  const AppDrawer({Key? key, ListView? child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -273,51 +429,86 @@ class AppDrawer extends StatelessWidget {
           const SizedBox(
             height: 80,
             child: DrawerHeader(
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                color: Colors.black, width: 3.0
-              ))),
-                child: Text("Attendance Management System (AMS)" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17.0))
-            ),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.black, width: 3.0))),
+                child: Text("Attendance Management System (AMS)",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 17.0))),
           ),
-          const SizedBox(height: 20,),
-          ListTile(
-              leading: const Icon(FontAwesomeIcons.home , size: 20,),
-              title: const Text('Home' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
-              onTap: () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyHomePage()),);
-              }
+          const SizedBox(
+            height: 20,
           ),
           ListTile(
-              leading: const Icon(FontAwesomeIcons.clipboard , size: 20,),
-              title: const Text('Take Leave' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
+              leading: const Icon(
+                FontAwesomeIcons.home,
+                size: 20,
+              ),
+              title: const Text(
+                'Home',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
               onTap: () {
                 Navigator.push(
-                context, MaterialPageRoute(
-                builder: (context) => const TakeLeave()),
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
-              }
-          ),
-          ListTile(
-              leading: const Icon(FontAwesomeIcons.bullhorn , size: 20,),
-              title: const Text('Announcement' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
-              onTap: () {
-                Navigator.push(
-                  context, MaterialPageRoute(
-                    builder: (context) => const Announcement()),);
               }),
           ListTile(
-              leading: const Icon(FontAwesomeIcons.infoCircle , size: 20,),
-              title: const Text('About' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
+              leading: const Icon(
+                FontAwesomeIcons.clipboard,
+                size: 20,
+              ),
+              title: const Text(
+                'Take Leave',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
               onTap: () {
                 Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const About()),);
-              }
-          ),
+                  context,
+                  MaterialPageRoute(builder: (context) => const TakeLeave()),
+                );
+              }),
           ListTile(
-              leading: const Icon(FontAwesomeIcons.signOutAlt , size: 20,),
-              title: const Text('Logout' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 17),),
-              onTap: () async{
+              leading: const Icon(
+                FontAwesomeIcons.bullhorn,
+                size: 20,
+              ),
+              title: const Text(
+                'Announcement',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Announcement()),
+                );
+              }),
+          ListTile(
+              leading: const Icon(
+                FontAwesomeIcons.infoCircle,
+                size: 20,
+              ),
+              title: const Text(
+                'About',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const About()),
+                );
+              }),
+          ListTile(
+            leading: const Icon(
+              FontAwesomeIcons.signOutAlt,
+              size: 20,
+            ),
+            title: const Text(
+              'Logout',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
+            onTap: () async {
               await FirebaseAuth.instance.signOut();
               var currentUser = FirebaseAuth.instance.currentUser;
               if (currentUser == null) {
@@ -331,7 +522,13 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
-class User{
-  final String email , name , roll , division , degree , mobile;
-  User(this.email, this.name, this.roll, this.division, this.degree, this.mobile);
+class User {
+  final String email, name, roll, division, degree, mobile;
+  User(this.email, this.name, this.roll, this.division, this.degree,
+      this.mobile);
+}
+
+class Leave {
+  final String date, reason;
+  Leave(this.date, this.reason);
 }

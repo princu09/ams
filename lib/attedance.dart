@@ -14,7 +14,6 @@ class Attendance extends StatefulWidget {
 }
 
 class _AttendanceState extends State<Attendance> {
-
   final userEmail = FirebaseAuth.instance.currentUser!.email.toString();
   // ignore: prefer_typing_uninitialized_variables
   var userName;
@@ -29,22 +28,19 @@ class _AttendanceState extends State<Attendance> {
 
   String finalDate = '';
 
-  getCurrentDate(){
-
+  getCurrentDate() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     String createDate = formatter.format(DateTime.now());
 
     setState(() {
-      finalDate = createDate ;
+      finalDate = createDate;
     });
   }
 
-
   Future userNameGet() async {
-
     var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/login.php");
 
-    final response =  await http.post(url , body: {
+    final response = await http.post(url, body: {
       "email": userEmail,
     });
 
@@ -55,9 +51,10 @@ class _AttendanceState extends State<Attendance> {
   }
 
   Future<void> sendAttendance() async {
-    var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/attendance.php");
+    var url =
+        Uri.parse("https://northfoxgroup123.000webhostapp.com/attendance.php");
 
-    final response =  await http.post(url , body: {
+    final response = await http.post(url, body: {
       "date": finalDate,
       "name": userName.toString(),
       "email": userEmail.toString(),
@@ -72,14 +69,23 @@ class _AttendanceState extends State<Attendance> {
   String barcode = "";
 
   Future scanBarcode() async {
-    String barcodeScanRes;
+    // String barcodeScanRes;
 
-    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", true, ScanMode.QR);
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+            "#ff6666", "Cancel", false, ScanMode.DEFAULT)
+        ?.listen((barcode) {
+      setState(() {
+        barcode = barcode;
+      });
 
-    setState(() {
-      barcode = barcodeScanRes;
+      /// barcode to be used
     });
+    // barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+    //     "#ff6666", "Cancel", true, ScanMode.QR);
+
+    // setState(() {
+    //   barcode = barcodeScanRes;
+    // });
   }
 
   @override
@@ -92,11 +98,14 @@ class _AttendanceState extends State<Attendance> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Confirm Your Details :" , style: TextStyle(fontSize: 18 , color: Colors.teal),),
+            const Text(
+              "Confirm Your Details :",
+              style: TextStyle(fontSize: 18, color: Colors.teal),
+            ),
             const SizedBox(
               height: 30,
             ),
-            if(barcode != "")
+            if (barcode != "")
               Column(
                 children: [
                   Text("Name : " + userName),
@@ -113,34 +122,46 @@ class _AttendanceState extends State<Attendance> {
             const SizedBox(
               height: 30,
             ),
-            if(barcode != "")
-
+            if (barcode != "")
               Container(
-              width: 150,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(50)
-              ),
-              // ignore: deprecated_member_use
-              child: FlatButton.icon(
-                icon: const Icon(FontAwesomeIcons.paperPlane , color: Colors.white, size: 17,),
-                onPressed: (){
-                  sendAttendance();
-                },
-                label: const Text("Submit" ,style: TextStyle(color: Colors.white , fontSize: 18 , fontWeight: FontWeight.w100),),
-              )
-            ),
+                  width: 150,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(50)),
+                  // ignore: deprecated_member_use
+                  child: FlatButton.icon(
+                    icon: const Icon(
+                      FontAwesomeIcons.paperPlane,
+                      color: Colors.white,
+                      size: 17,
+                    ),
+                    onPressed: () {
+                      sendAttendance();
+                    },
+                    label: const Text(
+                      "Submit",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w100),
+                    ),
+                  )),
             const SizedBox(
               height: 40,
             ),
-            if(msg != "")
-              Text("Warning : " + msg , style: const TextStyle(color: Colors.red , fontSize: 12),)
+            if (msg != "")
+              Text(
+                "Warning : " + msg,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: scanBarcode,
-      child: const Icon(FontAwesomeIcons.qrcode),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: scanBarcode,
+        child: const Icon(FontAwesomeIcons.qrcode),
+      ),
     );
   }
 }

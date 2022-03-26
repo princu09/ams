@@ -1,13 +1,6 @@
 <?php
 
-$servername = "localhost";
-$username = "id18223159_root";
-$password = 'A$IGotnc8uqh2xvT';
-$database = "id18223159_ams";
-
-// Create a connection
-
-$conn = mysqli_connect($servername, $username, $password, $database);
+require("_dbconnect.php");
 
 include("_header.php");
 
@@ -27,6 +20,7 @@ $result = mysqli_query($conn , $sql);
                 <th>Email</th>
                 <th>Reason</th>
                 <th>Date</th>
+                <th>Request Time/Date</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +32,7 @@ $result = mysqli_query($conn , $sql);
                     <td>". $row['email'] ."</td>
                     <td>". $row['reason'] ."</td>
                     <td>". $row['date'] ."</td>
+                    <td>". $row['date_auto'] ."</td>
                </tr>";
             }
             ?>
