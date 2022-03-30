@@ -38,7 +38,7 @@ class _AttendanceState extends State<Attendance> {
   }
 
   Future userNameGet() async {
-    var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/login.php");
+    var url = Uri.parse("https://ams123hm.000webhostapp.com/login.php");
 
     final response = await http.post(url, body: {
       "email": userEmail,
@@ -52,7 +52,7 @@ class _AttendanceState extends State<Attendance> {
 
   Future<void> sendAttendance() async {
     var url =
-        Uri.parse("https://northfoxgroup123.000webhostapp.com/attendance.php");
+        Uri.parse("https://ams123hm.000webhostapp.com/attendance.php");
 
     final response = await http.post(url, body: {
       "date": finalDate,
@@ -69,7 +69,7 @@ class _AttendanceState extends State<Attendance> {
   String barcode = "";
 
   Future scanBarcode() async {
-    // String barcodeScanRes;
+    String barcodeScanRes;
 
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             "#ff6666", "Cancel", false, ScanMode.DEFAULT)
@@ -78,14 +78,14 @@ class _AttendanceState extends State<Attendance> {
         barcode = barcode;
       });
 
-      /// barcode to be used
+      // / barcode to be used
     });
-    // barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-    //     "#ff6666", "Cancel", true, ScanMode.QR);
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", true, ScanMode.QR);
 
-    // setState(() {
-    //   barcode = barcodeScanRes;
-    // });
+    setState(() {
+      barcode = barcodeScanRes;
+    });
   }
 
   @override

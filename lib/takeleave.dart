@@ -33,7 +33,7 @@ class _TakeLeaveState extends State<TakeLeave> {
     });
   }
 
-  String url = "https://northfoxgroup123.000webhostapp.com/takeLeave.php";
+  String url = "https://ams123hm.000webhostapp.com/takeLeave.php";
 
   Future<void> sendData() async {
     var res = await http.post(Uri.parse(url), body: {

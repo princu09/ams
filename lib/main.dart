@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        home: _email != "" ? Security() : Login(),
+        home: _email != "" ? MyHomePage() : Login(),
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => MyHomePage(),
           '/login': (BuildContext context) => const Login(),
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future userAttedance() async {
     var url = Uri.parse(
-        "https://northfoxgroup123.000webhostapp.com/getThisMonthAttendance.php");
+        "https://ams123hm.000webhostapp.com/getThisMonthAttendance.php");
 
     final response = await http.post(url, body: {
       "email": userEmail,
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future userNameGet() async {
-    var url = Uri.parse("https://northfoxgroup123.000webhostapp.com/login.php");
+    var url = Uri.parse("https://ams123hm.000webhostapp.com/login.php");
 
     final response = await http.post(url, body: {
       "email": userEmail,
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List> leaveData() async {
     var url = Uri.parse(
-        "https://northfoxgroup123.000webhostapp.com/attendance_data.php");
+        "https://ams123hm.000webhostapp.com/attendance_data.php");
 
     final response = await http.post(url, body: {
       "email": userEmail,
@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List> leaveDeniedData() async {
     var url = Uri.parse(
-        "https://northfoxgroup123.000webhostapp.com/decline_attendance_data.php");
+        "https://ams123hm.000webhostapp.com/decline_attendance_data.php");
 
     final response = await http.post(url, body: {
       "email": userEmail,
@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center),
-                        const Text("You are attend lactures.",
+                        const Text("You are attend lectures.",
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -253,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50.0,
                         width: double.infinity,
                         child: FlatButton.icon(
-                            label: const Text("Fill Attandance",
+                            label: const Text("Fill Attendance",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.white,

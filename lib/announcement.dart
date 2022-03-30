@@ -17,7 +17,7 @@ class Announcement extends StatefulWidget {
 class _AnnouncementState extends State<Announcement> {
 
   getUserData() async{
-    var response = await http.get(Uri.parse('http://northfoxgroup123.000webhostapp.com/announcement.php'));
+    var response = await http.get(Uri.parse('http://ams123hm.000webhostapp.com/announcement.php'));
     var jsonData = jsonDecode(response.body);
     List<User> users = [];
 
